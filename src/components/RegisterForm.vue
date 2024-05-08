@@ -124,8 +124,7 @@
 
 </template>
 <script>
-import {auth, userCollection,} from '@/includes/firebase.js';
-import {mapWritableState} from "pinia";
+import {mapActions} from "pinia";
 import useUserStore from "@/stores/user.js"
 
 export default {
@@ -157,23 +156,22 @@ export default {
       reg_alret_msg: "please wait your account is being created",
     }
   },
-  computed: {
-    ...mapWritableState(useUserStore, ["isLoggedIn"]),
-  },
+
   methods: {
+    ...mapActions(useUserStore, {
+      createUser: "register",
+    }),
     async register(values) {
       this.reg_show_alert = true;
       this.reg_in_submission = true;
       this.reg_alret_variant = "bg-blue-500";
       this.reg_alret_msg = "please wait your account is being created";
 
-      let userCreds = null;
+
 
       try {
-        userCreds = await auth.createUserWithEmailAndPassword(
-            values.email,
-            values.password,
-        );
+       await this.createUser(values)
+
       } catch (error) {
         this.reg_in_submission = false;
         // this.reg_show_alert = true;
@@ -181,26 +179,11 @@ export default {
         this.reg_alret_msg = 'an error occurred,' + error;
         return;
       }
-      try {
-        await userCollection.add({
-          name: values.name,
-          email: values.email,
-          age: values.age,
-          country: values.country,
-          type: values.type,
 
-        });
-      } catch (error) {
-        this.reg_in_submission = false;
-        // this.reg_show_alert = true;
-        this.reg_alret_variant = "bg-red-500";
-        this.reg_alret_msg = 'an error occurred,' + error;
-        return;
-      }
-      this.isLoggedIn = true;
+
       this.reg_alret_variant = "bg-green-500";
       this.reg_alret_msg = "your account has been created";
-      console.log(values)
+      window.location.reload();
     }
   }
 }
