@@ -107,7 +107,8 @@
                  type="checkbox"
                  class="w-4 h-4 float-left -ml-6 mt-1 rounded"
       />
-      <label class="inline-block">Accept terms of service</label>
+      <i18n-t class="inline-block" keypath="register.accept" tag="label"><a href="#">{{ $t("register.tos") }}</a>
+      </i18n-t>
     </div>
 
     <ErrorMessage class="text-red-400 bg-red-100" name="tos"/>
@@ -168,9 +169,8 @@ export default {
       this.reg_alret_msg = "please wait your account is being created";
 
 
-
       try {
-       await this.createUser(values)
+        await this.createUser(values)
 
       } catch (error) {
         this.reg_in_submission = false;

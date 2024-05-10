@@ -15,14 +15,20 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const db = firebase.firestore();
 const storage = firebase.storage();
-const userCollection = db.collection("users");
+db.enablePersistence().catch((error)=>{
+    console.log("Persistence failed: ", error);
+});
 
+const userCollection = db.collection("users");
+const commentsCollection = db.collection('comments');
 const songsCollection = db.collection("songs");
+
 
 export {
     auth,
     db,
     userCollection,
     songsCollection,
-    storage
+    storage,
+    commentsCollection,
 }
