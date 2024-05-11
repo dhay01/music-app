@@ -1,8 +1,8 @@
 <template>
-  <li class="flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-300 hover:bg-gray-50"
+  <li  :class="`song-id-${song.docID}`" class="example flex justify-between items-center p-3 pl-6 cursor-pointer transition duration-200 hover:bg-gray-50"
   >
     <div>
-      <router-link :to="{name: 'Song', params: {id:song.docID} }" class="font-bold block text-gray-600">
+      <router-link :to="{name: 'Song', params: {id:song.docID} }" class="font-bold block text-gray-600 composition-name">
         {{ song.modified_name }}
       </router-link>
       <span class="text-gray-500 text-sm">{{ song.display_name }}</span>
@@ -24,7 +24,7 @@
 <script>
 export default {
   name: 'SongItem',
-  props: ['song']
+  props: ['song'],
 }
 
 </script>
